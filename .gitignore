@@ -2,6 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 .venv
+data/df_or.csv
+data/df_re.csv
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
