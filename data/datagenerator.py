@@ -27,7 +27,8 @@ def gerar_dados_forecast(num_linhas=200):
         receita_liquida = round(random.uniform(500, 50000), 2)
         
         linha = {
-            'Data': faker.date_this_year(),
+            'Ano': 2024,
+            'Mes': faker.month(),
             'Negocio': negocio,
             'Gerencia': gerencia,
             'Tecnologia': tecnologia,
