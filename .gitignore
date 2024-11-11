@@ -5,6 +5,8 @@
 data/df_or.csv
 data/df_re.csv
 
+.env
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
