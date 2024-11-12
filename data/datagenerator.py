@@ -1,6 +1,7 @@
 from faker import Faker
 import pandas as pd
 import random
+import openpyxl
 
 # Inicializando Faker
 faker = Faker('pt_BR')
@@ -15,7 +16,7 @@ produtos = {
     'Hot Melt': ['Produto 1314', 'Produto 1615', 'Produto 1821']
 }
 
-# Função para gerar dados de DRE
+#Função para gerar os dados para o forecast
 def gerar_dados_forecast(num_linhas=200):
     dados = []
     for _ in range(num_linhas):
@@ -42,7 +43,7 @@ def gerar_dados_forecast(num_linhas=200):
 
 if __name__ == "__main__":
     df_re = gerar_dados_forecast(1000)
-    df_re.to_csv("data/df_re.csv")
+    df_re.to_excel("data/df_re.xlsx")
 
     df_or = gerar_dados_forecast(1000)
-    df_or.to_csv("data/df_or.csv")
+    df_or.to_excel("data/df_or.xlsx")

@@ -14,9 +14,9 @@ data_schema = DataFrameSchema({
     "Receita Liquida": Column(pa.Float)
 })
 
-# Função para ler e validar o arquivo CSV
-def ler_csv(file):
-    df = pd.read_csv(file)
+# Função para ler e validar o arquivo XLSX
+def ler_xlsx(file):
+    df = pd.read_excel(file)
     
     # Selecionando as colunas desejadas
     df = df[['Ano', 'Mes', 'Negocio', 'Gerencia', 'Tecnologia', 'Produto', 'Receita Liquida']]
