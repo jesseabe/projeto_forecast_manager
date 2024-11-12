@@ -34,7 +34,7 @@ def gerar_dados_forecast(num_linhas=200):
             'Gerencia': gerencia,
             'Tecnologia': tecnologia,
             'Produto': produto,
-            'Receita Liquida': receita_liquida,
+            'Receita_Liquida': receita_liquida,
         }
         dados.append(linha)
     
@@ -43,7 +43,7 @@ def gerar_dados_forecast(num_linhas=200):
 
 if __name__ == "__main__":
     df_re = gerar_dados_forecast(1000)
-    df_re.to_excel("data/df_re.xlsx")
+    df_re.to_excel("data/df_re.xlsx", index=False)
 
     df_or = gerar_dados_forecast(1000)
-    df_or.to_excel("data/df_or.xlsx")
+    df_or.to_excel("data/df_or.xlsx", index=False)

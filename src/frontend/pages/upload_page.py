@@ -20,13 +20,29 @@ def display_errors(errors):
 def confirm_upload():
     return st.button("Subir Dados")
 
-# Função para processar o arquivo Excel
+def renomeia_colunas(df: pd.DataFrame, renomeia_colunas: dict) -> pd.DataFrame:
+    df.rename(columns=renomeia_colunas, inplace=True)
+    return df
+
+# Função para processar o arquivo Excel e salvar o DataFrame
 def process_excel(file):
-    try:
+   renomeia_colunas_dict = {
+    'Ano': 'Ano',
+    'Mes': 'Mes',
+    'Negocio': 'Negocio',
+    'Gerencia': 'Gerencia',
+    'Tecnologia': 'Tecnologia',
+    'Produto': 'Produto',
+    'Receita_Liquida': 'Receita_Liquida'
+    }
+   try:
         df = pd.read_excel(file)
-        errors = DataSchema.validate(df)
+        df = renomeia_colunas(df, renomeia_colunas_dict)
+        
+        errors = validate_dataframe(df)
         return df, errors
-    except Exception as e:
+   
+   except:
         # Tratamento de erro
         column_names = df.columns.tolist() if 'df' in locals() else 'N/A'
         error_message = f"Erro na leitura do arquivo: {str(e)}"
@@ -64,9 +80,11 @@ def main():
 
     uploaded_file = upload_file_ui()
     if uploaded_file is not None:
+        # Definir o caminho de salvamento usando o nome do arquivo original
+        file_path = os.path.join("data", uploaded_file.name)
+        os.makedirs("data", exist_ok=True)
+        
         # Salvar o arquivo no disco
-        file_path = os.path.join("uploaded_files", uploaded_file.name)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getvalue())
         
@@ -78,7 +96,8 @@ def main():
             if confirm_upload():
                 st.success("Dados enviados com sucesso!")
                 # Opcional: mostrar uma amostra dos dados
-                st.dataframe(data)
+                if data is not None:
+                    st.dataframe(data)
 
 if __name__ == "__main__":
     main()
