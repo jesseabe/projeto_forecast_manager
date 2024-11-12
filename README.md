@@ -1,10 +1,7 @@
-# projeto_forecast_manager
+# Projeto Forecast Manager
 
 
-## Para rodar o postgres local
+## Para rodar o projeto
 ```bash
-brew uninstall postgresql@14
-brew install postgresql@14
-brew services start postgresql@14
-brew services list
+python -m src.backend.services.data_service
 ```

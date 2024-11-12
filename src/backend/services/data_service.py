@@ -2,6 +2,7 @@ import pandas as pd
 import sqlite3
 import sqlalchemy
 from src.backend.services.file_service import ler_csv
+import sys
 import os
 
 
