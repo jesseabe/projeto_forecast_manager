@@ -11,7 +11,7 @@ data_schema = DataFrameSchema({
     "Gerencia": Column(pa.String),
     "Tecnologia": Column(pa.String),
     "Produto": Column(pa.String),
-    "Receita Liquida": Column(pa.Float)
+    "Receita_Liquida": Column(pa.Float)
 })
 
 # Função para ler e validar o arquivo XLSX
@@ -19,7 +19,7 @@ def ler_xlsx(file):
     df = pd.read_excel(file)
     
     # Selecionando as colunas desejadas
-    df = df[['Ano', 'Mes', 'Negocio', 'Gerencia', 'Tecnologia', 'Produto', 'Receita Liquida']]
+    df = df[['Ano', 'Mes', 'Negocio', 'Gerencia', 'Tecnologia', 'Produto', 'Receita_Liquida']]
     
     print(df.head())
     

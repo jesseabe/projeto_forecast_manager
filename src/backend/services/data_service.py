@@ -21,5 +21,5 @@ def csv_to_sql(excel_path, db_path, name):
     
 
 if __name__ == "__main__":
-    csv_to_sql("data/df_or.xlsx", "data/orcado.db", "orcado")
-    csv_to_sql("data/df_re.xlsx", "data/realizado.db", "realizado")
+    csv_to_sql("data/df_or.xlsx", "data/forecast.db", "orcado")
+    csv_to_sql("data/df_re.xlsx", "data/forecast.db", "realizado")
