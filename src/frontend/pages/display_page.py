@@ -59,7 +59,7 @@ def create_forecast_input_table(orcado):
     # Criar um DataFrame com esses agrupadores e os meses na horizontal para o forecast
     forecast_df = unique_groups.copy()
     for date in forecast_dates:
-        forecast_df[(date.year, date.month)] = 0  # Inicializa com zero para cada mês
+        forecast_df[(date.year, date.month)] = float(0.01)  # Inicializa com zero para cada mês
     
     # Ajustar o índice e as colunas para exibir Ano/Mês na horizontal
     forecast_df.columns = pd.MultiIndex.from_tuples([('Agrupadores', col) if isinstance(col, str) else col for col in forecast_df.columns])
@@ -72,9 +72,16 @@ forecast_input_df = create_forecast_input_table(orcado)
 # Permitir a edição da tabela de forecast diretamente
 edited_forecast = st.data_editor(forecast_input_df)
 
-# Após edição, mostrar o resultado
 if st.button("Salvar Forecast"):
-    # Aqui você poderia adicionar lógica para salvar o forecast em uma tabela do banco de dados ou arquivo
+    # Especificar o caminho do arquivo CSV na pasta data
+    file_path = 'data/forecast.xlsx'
+    
+    # Salvar o DataFrame editado como CSV
+    edited_forecast.to_excel(file_path, index=False)
+    
     st.write("Tabela de Forecast Preenchida:")
     st.dataframe(edited_forecast)
-    st.success("Forecast salvo com sucesso!")
+    st.success(f"Forecast salvo com sucesso em {file_path}!")
+
+
+
