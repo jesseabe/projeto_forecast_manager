@@ -6,6 +6,7 @@ import sqlite3
 from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
+st.set_page_config(layout="wide")  # Ampliar o layout para modo "wide"
 
 def display_page():
     st.title("Dados Realizado vs Orçado")
@@ -48,14 +49,15 @@ def display_page():
 
     comparison_table = create_comparison_table(realizado, orcado)
     st.write("Tabela de Realizado vs Orçado")
-    st.dataframe(comparison_table)
+    st.dataframe(comparison_table, use_container_width=True, height=500)
 
     st.subheader("Preenchimento de Forecast para os Próximos 12 Meses")
     forecast_input_df = create_forecast_input_table(orcado)
 
-    edited_forecast = st.data_editor(forecast_input_df)
+    edited_forecast = st.data_editor(forecast_input_df, use_container_width=True, height=500)
 
     if st.button("Salvar Forecast"):
         file_path = 'data/forecast.xlsx'
         edited_forecast.to_excel(file_path, index=False)
         st.success(f"Forecast salvo com sucesso em {file_path}!")
+
