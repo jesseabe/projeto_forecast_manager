@@ -9,6 +9,8 @@ from src.backend.services.file_service import ler_xlsx, process_forecast_data
 
 def xlsx_to_sql(excel_path, db_path, name):
     df = ler_xlsx(excel_path)
+    # Ajustando valores da coluna 'Receita_Liquida'
+    df["Receita_Liquida"] = df["Receita_Liquida"].apply(lambda x: 0.00 if x == 0.01 else x)
 
     conn = sqlite3.connect(db_path)
     df.to_sql(name, conn, if_exists='replace', index=False)
@@ -17,6 +19,7 @@ def xlsx_to_sql(excel_path, db_path, name):
 
     # Apaga o arquivo xlsx
     os.remove(excel_path)
+    os.remove("data/forecast.xlsx")
     print("Base salva com sucesso e arquivo Excel removido")
 
     
