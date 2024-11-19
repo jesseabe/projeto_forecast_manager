@@ -3,5 +3,5 @@
 
 ## Para rodar o projeto
 ```bash
-python -m src.backend.services.data_service
+streamlit run src/frontend/pages/app.py
 ```
