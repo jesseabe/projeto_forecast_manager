@@ -6,10 +6,10 @@ import sqlite3
 from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-st.set_page_config(layout="wide")  # Ampliar o layout para modo "wide"
+st.set_page_config(layout="wide", page_title="Realizado vs Orçado")  # Configuração de layout e título
 
 def display_page():
-    st.title("Dados Realizado vs Orçado")
+    st.title("📊 Dados Realizado vs Orçado")
 
     def load_data(table_name):
         con = sqlite3.connect('data/forecast.db')
@@ -47,17 +47,31 @@ def display_page():
     realizado = load_data('realizado')
     orcado = load_data('orcado')
 
+    # Adicionar filtros para Negócio, Gerência e Produto
+    st.sidebar.header("Filtros")
+    negocio_filter = st.sidebar.multiselect("Selecione o Negócio:", options=realizado["Negocio"].unique(), default=realizado["Negocio"].unique())
+    gerencia_filter = st.sidebar.multiselect("Selecione a Gerência:", options=realizado["Gerencia"].unique(), default=realizado["Gerencia"].unique())
+    produto_filter = st.sidebar.multiselect("Selecione o Produto:", options=realizado["Produto"].unique(), default=realizado["Produto"].unique())
+
+    # Aplicar filtros
+    realizado = realizado[realizado["Negocio"].isin(negocio_filter) & realizado["Gerencia"].isin(gerencia_filter) & realizado["Produto"].isin(produto_filter)]
+    orcado = orcado[orcado["Negocio"].isin(negocio_filter) & orcado["Gerencia"].isin(gerencia_filter) & orcado["Produto"].isin(produto_filter)]
+
     comparison_table = create_comparison_table(realizado, orcado)
-    st.write("Tabela de Realizado vs Orçado")
+    st.write("### 📈 Tabela de Realizado vs Orçado")
     st.dataframe(comparison_table, use_container_width=True, height=500)
 
-    st.subheader("Preenchimento de Forecast para os Próximos 12 Meses")
+    st.write("---")  # Separador visual
+    st.subheader("📅 Preenchimento de Forecast para os Próximos 12 Meses")
     forecast_input_df = create_forecast_input_table(orcado)
 
     edited_forecast = st.data_editor(forecast_input_df, use_container_width=True, height=500)
 
-    if st.button("Salvar Forecast"):
+    if st.button("💾 Salvar Forecast"):
         file_path = 'data/forecast.xlsx'
         edited_forecast.to_excel(file_path, index=False)
-        st.success(f"Forecast salvo com sucesso em {file_path}!")
+        st.success(f"✅ Forecast salvo com sucesso em {file_path}!")
+
+
+
 
