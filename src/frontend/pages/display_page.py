@@ -6,8 +6,6 @@ import sqlite3
 from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-st.set_page_config(layout="wide", page_title="Realizado vs Orçado")  # Configuração de layout e título
-
 def display_page():
     st.title("📊 Dados Realizado vs Orçado")
 

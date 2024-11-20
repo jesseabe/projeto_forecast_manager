@@ -6,24 +6,27 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from src.backend.contracts.schema import DataSchema
 
-# Upload Page Function
+# Página de Upload
 def upload_page():
-    st.title("Upload de Arquivos")
+    st.title("📂 Upload de Arquivos: Realizado e Orçado")
 
-    def upload_file_ui():
-        return st.file_uploader("Escolha o arquivo Excel", type="xlsx")
+    # Layout com colunas para uploads lado a lado
+    col1, col2 = st.columns(2)
 
-    def display_errors(errors):
-        for error in errors:
-            st.error(error)
+    with col1:
+        st.header("🔵 Upload Realizado")
+        realizado_file = st.file_uploader("Escolha o arquivo Realizado (Excel)", type="xlsx", key="realizado")
 
-    def confirm_upload():
-        return st.button("Subir Dados")
+    with col2:
+        st.header("🟢 Upload Orçado")
+        orcado_file = st.file_uploader("Escolha o arquivo Orçado (Excel)", type="xlsx", key="orcado")
 
+    # Função para renomear colunas
     def renomeia_colunas(df: pd.DataFrame, renomeia_colunas: dict) -> pd.DataFrame:
         df.rename(columns=renomeia_colunas, inplace=True)
         return df
 
+    # Processamento do arquivo
     def process_excel(file):
         renomeia_colunas_dict = {
             'Ano': 'Ano',
@@ -43,6 +46,7 @@ def upload_page():
             error_message = f"Erro na leitura do arquivo: {str(e)}"
             return None, [error_message]
 
+    # Validação do DataFrame
     def validate_dataframe(df):
         errors = []
         required_columns = DataSchema.__annotations__.keys()
@@ -59,18 +63,19 @@ def upload_page():
         
         return errors
 
-    uploaded_file = upload_file_ui()
-    if uploaded_file is not None:
-        file_path = os.path.join("data", uploaded_file.name)
-        os.makedirs("data", exist_ok=True)
-        
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getvalue())
-        
-        data, errors = process_excel(file_path)
-        if errors:
-            display_errors(errors)
-        else:
-            if confirm_upload():
-                st.success("Dados enviados com sucesso!")
-                st.dataframe(data)
+    # Botão de processamento
+    st.markdown("---")
+    if st.button("📊 Processar Arquivos"):
+        for file, label in [(realizado_file, "Realizado"), (orcado_file, "Orçado")]:
+            if file:
+                st.subheader(f"Resultado do Arquivo {label}")
+                data, errors = process_excel(file)
+                if errors:
+                    st.error(f"Erros no arquivo {label}:")
+                    for error in errors:
+                        st.error(error)
+                else:
+                    st.success(f"Arquivo {label} processado com sucesso!")
+                    st.dataframe(data)
+            else:
+                st.warning(f"Arquivo {label} não foi enviado.")
