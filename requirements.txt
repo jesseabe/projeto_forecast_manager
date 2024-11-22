@@ -36,7 +36,6 @@ pillow==11.0.0
 plotly==5.24.1
 plotly-express==0.4.1
 protobuf==5.28.3
-psycopg2==2.9.10
 pyarrow==18.0.0
 pydantic==2.9.2
 pydantic_core==2.23.4
