@@ -17,15 +17,15 @@ git clone <URL_DO_REPOSITORIO>
 cd projeto_forecast_manager
 ```
 
-## 2️⃣ Construa a imagem Docker
-Execute o comando para criar a imagem Docker:
+## 2️⃣ Construa os serviços
+Construa os serviços do docker compose
 ```bash
-docker build -t forecast_manager .
+docker-compose build
 ```
 ## 3️⃣ Rode o container
-Inicie o container da aplicação expondo a porta padrão do Streamlit 8501:
+Inicie os containers da aplicação
 ```bash
-docker run -p 8501:8501 forecast_manager_container forecast_manager
+docker-compose up
 ```
 
 ## Acesse a aplicação
