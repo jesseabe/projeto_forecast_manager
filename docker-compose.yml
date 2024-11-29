@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["python", "src/backend/service/data_service.py"]
+    command: ["python", "src/backend/services/data_service.py"]
     volumes:
       - ./src:/app/src
       - ./data:/app/data
