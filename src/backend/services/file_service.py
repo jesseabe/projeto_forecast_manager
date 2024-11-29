@@ -1,5 +1,6 @@
 import pandas as pd
 import pandera as pa
+import os
 from pandera import Column, DataFrameSchema
 
 
@@ -71,6 +72,7 @@ def process_forecast_data(filepath):
     df_final = df_melted.drop(columns=["Ano_Mes"])
 
     df_final.to_excel("data/forecast_processed.xlsx", index=False)
+    os.remove(filepath)
     return df_final
 
 

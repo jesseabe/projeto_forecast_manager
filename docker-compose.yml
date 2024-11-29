@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    command: ["streamlit", "run", "src/frontend/pages/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "src/backend/service/data_service.py"]
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    ports:
+      - "5000:5000" # Porta para o backend se necessário
